@@ -1,0 +1,10 @@
+
+<launch>
+	<node name="serial_read_ex" pkg="serial_read_ex" type="serial_read_ex" output="screen">
+		<param name="port" type="string" value="/dev/ttyACM0"/>
+		<param name="baud" type="string" value="9600"/>
+		<param name="input_monitor" type="bool" value="false"/>
+	</node>
+
+</launch>
+
