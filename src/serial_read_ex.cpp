@@ -5,7 +5,7 @@
   This version is intended to read a single signal comming from a interrupted tact switch on a MCU.
   Setting parameters through a ros launch file is recommended.
 
-  This ROS Package is piled up on the termios code usaged explained here: http://xanthium.in/Serial-Port-Programming-on-Linux
+  This ROS Package is piled up on the termios code usage explained here: http://xanthium.in/Serial-Port-Programming-on-Linux
 
   created by Ahn, Jeeho
   2018.04.07
