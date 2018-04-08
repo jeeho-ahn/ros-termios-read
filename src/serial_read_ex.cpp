@@ -29,9 +29,9 @@
 ros::Publisher* pub_SinPointer;
 bool will_continue = false;
 
-std::string s_port = "/dev/ttyACM0";
-std::string b_rate = "9600";
-bool input_monitor = true;  //
+std::string s_port = "/dev/ttyACM0"; //serial port
+std::string b_rate = "9600"; //baud rate
+bool input_monitor = true;  // whether the input data from the serial port is to be displayed or not
 
 int main(int argc, char** argv)
 {
@@ -45,12 +45,16 @@ int main(int argc, char** argv)
 
 
     pub_SinPointer = &pub_Sin;
+
     //////////////////////////////////////////////////////////////
 
+    //roslaunch settings will be applied to rosparam server,then below will catch them.
+    // Otherwise, the default settings will be applied.
     nh.param(node_name + "/port", s_port, std::string("/dev/ttyACM0"));
     nh.param(node_name + "/baud", b_rate, std::string("9600"));
     nh.param(node_name + "/input_monitor", input_monitor, true);
 
+    //////////////////////////////////////////////////////////////
     int fd;
       fd = open(s_port.c_str(),O_RDWR | O_NOCTTY);
       if(fd == -1)
@@ -74,7 +78,7 @@ int main(int argc, char** argv)
         SerialPortSettings.c_cflag &= ~CRTSCTS; //HW flow control off
         SerialPortSettings.c_cflag |= CREAD | CLOCAL; //turn on receiver
         SerialPortSettings.c_iflag &= ~(IXON | IXOFF | IXANY);
-        SerialPortSettings.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+        SerialPortSettings.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG);  //non-canonical
 
         tcsetattr(fd,TCSANOW,&SerialPortSettings); //set
 
@@ -83,12 +87,12 @@ int main(int argc, char** argv)
         SerialPortSettings.c_cc[VTIME]=10;  //timeout 1 sec
         tcsetattr(fd,TCSANOW,&SerialPortSettings); //set
 
-        char read_buffer[32];
+        char read_buffer[32];  //this is where the read string will be stored
         int bytes_read = 0;
 
-        memset(read_buffer, 0, sizeof(read_buffer));
+        memset(read_buffer, 0, sizeof(read_buffer));  //clear buffer
 
-        std_msgs::Bool state; state.data=true;
+        std_msgs::Bool state; state.data=true;  // ROS data to be published
 
     while(ros::ok())
     {
@@ -105,7 +109,7 @@ int main(int argc, char** argv)
 
       // ros::spinOnce();
       //loop_rate.sleep();
-      memset(read_buffer, 0, sizeof(read_buffer));
+      memset(read_buffer, 0, sizeof(read_buffer));  //clear buffer
     }
    }
     std::cout << std::endl;
