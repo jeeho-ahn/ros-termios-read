@@ -1,3 +1,4 @@
+
 /*
   This is an example code for reading a simple serial communication through a serial port.
   Tested with a ROBOTIS OpenCM, and will likely to work with Arduino and any other devices that talks through serial ports as well.
@@ -40,7 +41,7 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     ros::Publisher pub_Sin = nh.advertise<std_msgs::Bool>
-        ("/pub_Sin", 2);
+        ("/serial_in", 2);
 
 
     pub_SinPointer = &pub_Sin;
